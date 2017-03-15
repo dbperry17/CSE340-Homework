@@ -16,7 +16,7 @@ using namespace std;
 
 // Lexer modified for FIRST & FOLLOW project
 
-string reserved[] = {"HASH", "ERROR"};
+string reserved[] = {"aTerm", "cTerm", "dTerm", "ERROR"};
 
 void Token::Print()
 {
@@ -51,38 +51,6 @@ bool LexicalAnalyzer::SkipSpace()
         input.UngetChar(c);
     }
     return space_encountered;
-}
-
-Token LexicalAnalyzer::ScanId()
-{
-    char c;
-    input.GetChar(c);
-
-    if (isalpha(c))
-    {
-        tmp.lexeme = "";
-        while (!input.EndOfInput() && isalnum(c))
-        {
-            tmp.lexeme += c;
-            input.GetChar(c);
-        }
-        if (!input.EndOfInput())
-        {
-            input.UngetChar(c);
-        }
-        tmp.line_no = line_no;
-        tmp.token_type = ID;
-    }
-    else
-    {
-        if (!input.EndOfInput())
-        {
-            input.UngetChar(c);
-        }
-        tmp.lexeme = "";
-        tmp.token_type = ERROR;
-    }
-    return tmp;
 }
 
 // you should unget tokens in the reverse order in which they
@@ -125,17 +93,33 @@ Token LexicalAnalyzer::GetToken()
     tmp.line_no = line_no;
     input.GetChar(c);
     switch (c) {
-        case '#':
-            tmp.token_type = HASH;
+        case 'a':
+            tmp.lexeme = "a";
+            tmp.token_type = aTerm;
+            cout << "Test 1" << endl;
+            return tmp;
+        case 'c':
+            tmp.lexeme = "c";
+            tmp.token_type = cTerm;
+            cout << "Test 2" << endl;
+            return tmp;
+        case 'd':
+            tmp.lexeme = "d";
+            tmp.token_type = dTerm;
+            cout << "Test 3" << endl;
             return tmp;
         default:
-            if (isalpha(c)) {
-                input.UngetChar(c);
-                return ScanId();
-            } else if (input.EndOfInput())
+            if (input.EndOfInput())
+            {
+                tmp.lexeme = "$";
                 tmp.token_type = END_OF_FILE;
+                cout << "Test 4" << endl;
+            }
             else
+            {
                 tmp.token_type = ERROR;
+                cout << "Test 5" << endl;
+            }
 
             return tmp;
     }

@@ -13,7 +13,7 @@
 
 // Lexer modified for FIRST & FOLLOW project
 
-typedef enum { END_OF_FILE = 0, ARROW, HASH, DOUBLEHASH, ID, ERROR } TokenType;
+typedef enum { END_OF_FILE = 0, aTerm, cTerm, dTerm, ERROR } TokenType;
 
 class Token {
 public:
